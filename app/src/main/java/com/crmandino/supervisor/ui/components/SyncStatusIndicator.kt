@@ -1,5 +1,7 @@
 package com.crmandino.supervisor.ui.components
 
+import com.crmandino.supervisor.ui.theme.SobreColor
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +49,7 @@ fun EstadoSincronizacion.color(): Color = when (this) {
 fun EstadoSyncChip(estado: EstadoSincronizacion, modifier: Modifier = Modifier) {
     Text(
         text = estado.etiqueta,
-        color = Color.White,
+        color = SobreColor,
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         modifier = modifier

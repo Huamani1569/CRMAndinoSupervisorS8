@@ -74,6 +74,7 @@ import com.crmandino.supervisor.ui.theme.RojoError
 import com.crmandino.supervisor.ui.theme.TextoSecundario
 import com.crmandino.supervisor.ui.theme.TurquesaLago
 import com.crmandino.supervisor.ui.theme.VerdeExito
+import com.crmandino.supervisor.util.DetectorAgitar
 import com.crmandino.supervisor.util.Formato
 import com.crmandino.supervisor.viewmodel.GestionViewModel
 
@@ -109,6 +110,11 @@ fun SupervisorPrincipalScreen(
             2 -> vm.refrescarCampanas()
             3 -> vm.refrescarClientes()
         }
+    }
+    // Sensor: agitar el celular = actualizar la pestaña actual
+    DetectorAgitar {
+        vm.avisar("Agitaste el celular: actualizando…")
+        when (pestana) { 0 -> vm.refrescarPanel(); 1 -> vm.refrescarEquipo(); 2 -> vm.refrescarCampanas(); 3 -> vm.refrescarClientes() }
     }
     val titulos = listOf("Panel comercial", "Mi equipo", "Campañas", "Clientes", "Más opciones")
     val subtitulos = listOf("CRM analítico · ${Formato.fecha(Formato.hoyIso())}", "Aprobaciones y reasignación", "Marketing segmentado", "Riesgo y rentabilidad (ML)", usuario.nombre)
