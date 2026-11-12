@@ -17,6 +17,7 @@ import com.crmandino.supervisor.data.local.entities.UsuarioEntity
 import com.crmandino.supervisor.model.EntidadSync
 import com.crmandino.supervisor.model.EstadoSincronizacion
 import com.crmandino.supervisor.model.OperacionSync
+import com.crmandino.supervisor.model.RolUsuario
 import com.crmandino.supervisor.model.TipoOperacion
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -65,6 +66,11 @@ class SyncRepository(
         val problemaAlEnviar = enviarPendientes()
         if (problemaAlEnviar != null) return problemaAlEnviar
 
+        // El AGENTE de servicio no trabaja con leads: su información (cola de tickets) se lee en línea
+        if (sesion.usuario()?.rol == RolUsuario.AGENTE) {
+            metaDao.guardar(SyncMetadataEntity(RECURSO_GENERAL, System.currentTimeMillis(), null))
+            return ResultadoSync(true, "Sincronización completa.")
+        }
         val descarga = descargar()
         if (!descarga.exito) return descarga
 

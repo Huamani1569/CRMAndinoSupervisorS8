@@ -2,6 +2,7 @@ package com.crmandino.supervisor
 
 import android.app.Application
 import com.crmandino.supervisor.di.AppContainer
+import com.crmandino.supervisor.util.Notificador
 import com.crmandino.supervisor.worker.SyncWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,7 @@ class CrmSupervisorApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         contenedor = AppContainer(this)
+        Notificador.crearCanal(this)
         SyncWorker.programarPeriodica(this)
 
         // Al RECUPERAR la conexión se sincroniza de inmediato (RF13).

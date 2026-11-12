@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.crmandino.supervisor.data.local.dao.CacheDao
 import com.crmandino.supervisor.data.local.dao.LeadDao
 import com.crmandino.supervisor.data.local.dao.OperacionPendienteDao
 import com.crmandino.supervisor.data.local.dao.SyncMetadataDao
 import com.crmandino.supervisor.data.local.dao.TareaDao
 import com.crmandino.supervisor.data.local.dao.UsuarioDao
+import com.crmandino.supervisor.data.local.entities.CacheEntity
 import com.crmandino.supervisor.data.local.entities.LeadEntity
 import com.crmandino.supervisor.data.local.entities.OperacionPendienteEntity
 import com.crmandino.supervisor.data.local.entities.SyncMetadataEntity
@@ -22,7 +24,8 @@ import com.crmandino.supervisor.data.local.entities.UsuarioEntity
         LeadEntity::class,
         TareaEntity::class,
         OperacionPendienteEntity::class,
-        SyncMetadataEntity::class
+        SyncMetadataEntity::class,
+        CacheEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -34,6 +37,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun tareaDao(): TareaDao
     abstract fun operacionPendienteDao(): OperacionPendienteDao
     abstract fun syncMetadataDao(): SyncMetadataDao
+    abstract fun cacheDao(): CacheDao
 
     companion object {
         @Volatile
@@ -44,7 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "crm_supervisor_s8.db" // nombre nuevo: no choca con la base de la Semana 6
+                    "crm_supervisor_pf.db"   // Proyecto Final: base nueva (etapas nuevas y caché)
                 ).build().also { INSTANCE = it }
             }
     }

@@ -6,6 +6,7 @@ import com.crmandino.supervisor.data.local.SesionLocal
 import com.crmandino.supervisor.data.remote.RetrofitClient
 import com.crmandino.supervisor.data.repository.AuthRepository
 import com.crmandino.supervisor.data.repository.ColaOperaciones
+import com.crmandino.supervisor.data.repository.GestionRepository
 import com.crmandino.supervisor.data.repository.LeadRepository
 import com.crmandino.supervisor.data.repository.SyncRepository
 import com.crmandino.supervisor.data.repository.TareaRepository
@@ -43,6 +44,7 @@ class AppContainer(private val context: Context) {
     val leadRepository = LeadRepository(db, cola, programarSync)
     val tareaRepository = TareaRepository(db)
     val syncRepository = SyncRepository(db, api, sesion)
+    val gestionRepository = GestionRepository(context, db, api, sesion)
 
     fun sincronizarEnSegundoPlano() = SyncWorker.sincronizarPronto(context)
 }

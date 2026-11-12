@@ -1,5 +1,6 @@
 package com.crmandino.supervisor
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,12 +8,14 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.crmandino.supervisor.di.AppContainer
 import com.crmandino.supervisor.ui.navigation.AppNavigation
 import com.crmandino.supervisor.ui.theme.CRMAndinoTheme
 import com.crmandino.supervisor.viewmodel.AuthViewModel
+import com.crmandino.supervisor.viewmodel.GestionViewModel
 import com.crmandino.supervisor.viewmodel.LeadViewModel
 import com.crmandino.supervisor.viewmodel.SyncViewModel
 import com.crmandino.supervisor.viewmodel.TareaViewModel
@@ -43,13 +46,30 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private val gestionViewModel: GestionViewModel by viewModels {
+        viewModelFactory { initializer { GestionViewModel(contenedor.gestionRepository, contenedor.conectado) } }
+    }
+
+    // Se incrementa cada vez que el usuario toca una notificación del sistema
+    private val abrirNotificaciones = mutableIntStateOf(0)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
+        // Barras del sistema con íconos oscuros sobre el fondo claro de vidrio
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
+        if (intent?.getBooleanExtra("abrir_notificaciones", false) == true) abrirNotificaciones.intValue = 1
         setContent {
             CRMAndinoTheme {
-                AppNavigation(authViewModel, leadViewModel, tareaViewModel, syncViewModel)
+                AppNavigation(authViewModel, leadViewModel, tareaViewModel, syncViewModel, gestionViewModel, abrirNotificaciones.intValue)
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.getBooleanExtra("abrir_notificaciones", false)) abrirNotificaciones.intValue += 1
     }
 }

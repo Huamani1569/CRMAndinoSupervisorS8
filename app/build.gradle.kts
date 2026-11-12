@@ -16,8 +16,8 @@ android {
         applicationId = "com.crmandino.supervisor"
         minSdk = 24
         targetSdk = 36
-        versionCode = 8
-        versionName = "0.8-semana8"
+        versionCode = 14
+        versionName = "1.4-semana14"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

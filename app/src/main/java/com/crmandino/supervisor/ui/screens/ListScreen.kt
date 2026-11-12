@@ -173,8 +173,7 @@ private fun EditarLeadDialog(
                     seleccionada = vendedorNombre,
                     onSeleccionar = { vendedorNombre = it }
                 )
-                Text("Etapa", style = MaterialTheme.typography.labelMedium)
-                SelectorChips(opciones = EtapaVenta.etiquetas, seleccionada = etapa, onSeleccionar = { etapa = it })
+                Text("Etapa: ${EtapaVenta.desdeTexto(etapa).etiqueta} (la cambia el vendedor desde su app)", style = MaterialTheme.typography.labelMedium)
                 // Datos de sincronización (evidencia: id local, id remoto, uuid y versión)
                 Text(
                     "ID local ${lead.id} · ID remoto ${lead.remoteId ?: "—"} · versión ${lead.version} · ${lead.estadoSync.etiqueta}\nUUID ${lead.uuid}",
